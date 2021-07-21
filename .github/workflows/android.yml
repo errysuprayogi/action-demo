@@ -1,8 +1,6 @@
 name: Android CI
 
 on:
-  push:
-    branches: [ demo ]
   pull_request:
     branches: [ master ]
 
@@ -21,6 +19,16 @@ jobs:
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+      
+    - name: Cache
+      uses: actions/cache@v2.1.6
+      with:
+        # A list of files, directories, and wildcard patterns to cache and restore
+        path: |
+          ~/.gradle/caches
+        # An explicit key for restoring and saving the cache
+        key: gradle-cache
+        # An ordered list of keys to use for restoring the cache if no cache hit occurred for key
     - name: Build with Gradle
       run: ./gradlew build
       
