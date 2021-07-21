@@ -51,11 +51,22 @@ jobs:
           ~/.gradle/caches
         # An explicit key for restoring and saving the cache
         key: gradle-cache
+    
+    - name: Build APK
+      run: ./gradlew assembleDebug assembleDebugAndroidTest
+    
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        # Artifact name
+        name: debug-apk
+        # A file, directory or wildcard pattern that describes what to upload
+        path: app/build/outputs/apk/debug/app-debug.apk
         
     # Run the Firebase Test Lab Action
     - name: Run tests on Firebase Test Lab
       uses: asadmansr/Firebase-Test-Lab-Action@v1.0
       with:
-        arg-spec: './github/ftl-config.yml:android-pixel-4'
+        arg-spec: '.github/ftl-config.yml:android-pixel-4'
       env:
         SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
