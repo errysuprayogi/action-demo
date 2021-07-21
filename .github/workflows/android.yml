@@ -32,4 +32,30 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
       
-    
+  firebase-test-labs:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+    - name: Cache
+      uses: actions/cache@v2.1.6
+      with:
+        # A list of files, directories, and wildcard patterns to cache and restore
+        path: |
+          ~/.gradle/caches
+        # An explicit key for restoring and saving the cache
+        key: gradle-cache
+        
+    # Run the Firebase Test Lab Action
+    - name: Run tests on Firebase Test Lab
+      uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+      with:
+        arg-spec: './github/ftl-config.yml:android-pixel-4'
+      env:
+        SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
