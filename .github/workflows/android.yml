@@ -49,6 +49,7 @@ jobs:
         # A list of files, directories, and wildcard patterns to cache and restore
         path: |
           ~/.gradle/caches
+          ~/.gradle/wrapper
         # An explicit key for restoring and saving the cache
         key: gradle-cache
     
@@ -70,3 +71,16 @@ jobs:
         arg-spec: '.github/ftl-config.yml:android-pixel-4'
       env:
         SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+    
+    - name: slack-send
+      # You may pin to the exact commit or the version.
+      # uses: slackapi/slack-github-action@d5d276d7ae0f38f29322b80da9baf985cc80f8b1
+      uses: slackapi/slack-github-action@v1.15.0
+      with:
+        # Slack channel ID where message will be posted. Needed if using bot token
+        channel-id: 'U15CCJUE5'
+        # Message to post into Slack. Needed if using bot token
+        slack-message: 'Firebase test lab is finished'
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
+    
