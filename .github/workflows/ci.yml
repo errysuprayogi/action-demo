@@ -28,10 +28,23 @@ jobs:
         run: ./gradlew assembleDebug
         
       - name: Run Unit Test
-        run: ./gradlew testDebug
+        run: ./gradlew assembleDebugAndroidTest
+        
+      - name: Run tests on Firebase Test Lab
+        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+        with:
+          arg-spec: '.github/ftl.yml:android-pixel-4'
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
           name: build-apk
           path: app/build/outputs/apk/debug/app-debug.apk
+          
+      - name: Upload a Test Artifact
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: build-apk
+          path: app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
