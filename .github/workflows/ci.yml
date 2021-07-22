@@ -32,4 +32,5 @@ jobs:
         
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
-        path: 'app/build/outputs/apk/debug/app-debug.apk'
+          name: build-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
